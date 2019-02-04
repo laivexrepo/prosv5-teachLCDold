@@ -19,6 +19,9 @@
                              // value of 0 - dealing with slow creepign of robot when joysticks
                              // do not land perfectly in the center position
 
+#define MOTOR_MAX_SPEED 100  // Robot has 36 gearset (RED) for 18 gearset (GREEN) -- 200
+                             // for 06 (BLUE) -- 600
+
 // This file then can be included in any of the subsystem source files
 // using #include "chassis.h"
 

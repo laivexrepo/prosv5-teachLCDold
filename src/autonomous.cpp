@@ -1,4 +1,9 @@
 #include "main.h"
+#include "auto.h"
+#include "portdef.h"
+#include "chassis.h"
+#include "lift.h"
+
 
 /**
  * Runs the user autonomous code. This function will be started in its own task
@@ -11,4 +16,50 @@
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {}
+
+//FOR SELECTION//
+extern int selection;
+extern char* titles[];
+
+void autonomous() {
+
+  // We are calling a autonomous function based on the selection
+  // we made on the LCD
+  switch(selection) {
+    case 0 :
+          pros::lcd::print(4, "Script#: %d\n", selection);
+          pros::lcd::print(5, titles[selection]);
+          skillRun();
+       break;
+
+       case 1 :
+             pros::lcd::print(4, "Script#: %d\n", selection);
+             pros::lcd::print(5, titles[selection]);
+             autoRedLeft();
+          break;
+
+       case 2 :
+             pros::lcd::print(4, "Script#: %d\n", selection);
+             pros::lcd::print(5, titles[selection]);
+             autoBlueLeft();
+          break;
+
+      case 3 :
+             pros::lcd::print(4, "Script#: %d\n", selection);
+             pros::lcd::print(5, titles[selection]);
+             autoRedRight();
+          break;
+
+      case 4 :
+             pros::lcd::print(4, "Script#: %d\n", selection);
+             pros::lcd::print(5, titles[selection]);
+             autoBlueRight();
+          break;
+
+    default :
+             // this should never happen as selection is alwasy inialized as 0
+             // does the case of '0' is in essence the defualt.
+          break;
+
+  }
+}

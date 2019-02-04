@@ -4,10 +4,10 @@
 
 // Setup the motor definitions for the motors on the chassis, including GEARSET,
 // which in this case is RED cartridge - 100 RPM gear set.
-pros::Motor left_wheel_1 (DRIVE_LEFT_MOTOR_PORT, MOTOR_GEARSET_36);
-pros::Motor left_wheel_2 (DRIVE_LEFT_MOTOR_PORT2, MOTOR_GEARSET_36);
-pros::Motor right_wheel_1 (DRIVE_RIGHT_MOTOR_PORT, MOTOR_GEARSET_36, true);
-pros::Motor right_wheel_2 (DRIVE_RIGHT_MOTOR_PORT2, MOTOR_GEARSET_36, true);
+pros::Motor left_wheel_1 (DRIVE_LEFT_MOTOR_PORT);
+pros::Motor left_wheel_2 (DRIVE_LEFT_MOTOR_PORT2);
+pros::Motor right_wheel_1 (DRIVE_RIGHT_MOTOR_PORT);
+pros::Motor right_wheel_2 (DRIVE_RIGHT_MOTOR_PORT2);
 
 
 // Place all chassis specific functions here, forexample
@@ -53,130 +53,58 @@ void turnRight(int speed) {
   motorSet(RIGHT_M_FRONT, -speed);
 }
 
-void drivePID(int masterPower) {
-  // USE PID to drive straight forever - that is the funntion is called and a delayMsec
-  // is used for how long the robot drives
-  // Speed of the driving is also effectign its accuracy
-  // Warning: do not get the P controller into a osciliating movement
-
-  if(masterPower == 0 ) {
-     masterPower = 30;
-  } else if(masterPower > 110) {
-    masterPower = 100;              // make sure we have head room for slave
-                                    // motor to increass
-  }
-  int slavePower = masterPower;
-
-  int error = 0;
-  int kp = 5;
-
-   //Reset the encoders.
-   encoderReset(encoderLM);
-   encoderReset(encoderRM);
-   //Repeat ten times a second.
-    while(true)
-    {
-      //Set the motor powers to their respective variables.
-      motorSet(LEFT_M_FRONT, masterPower);
-      motorSet(RIGHT_M_FRONT, -slavePower);
-
-      delay(300);                     // control loop needs enough time to gather
-                                      // data to base corrections on, to fast no effect,
-                                      // to slow the robot will zig zag
-                                      // Note: PWM can not run faster then 60Hz
-
-      error = encoderGet(encoderLM) - encoderGet(encoderRM);
-      slavePower = slavePower + (error / kp);
-
-      if(DEBUG_ON){
-        // We are going to write soem stuff to the terminal for debugging
-        printf("MasterPower: %d ", masterPower);
-        printf("SlavePower: %d ", slavePower);
-        printf("Left Enc: %d ", encoderGet(encoderLM));
-        printf("Right Enc: %d ", encoderGet(encoderRM));
-        printf("Error: %d ", error);
-        printf("Kp: %d ", kp);
-        printf("\n ");
-      }
-      //Reset the encoders every loop.
-      encoderReset(encoderLM);
-      encoderReset(encoderRM);
-    }
-}
+*/
 
 void driveForDistancePID(int distance, int speed) {
-  // drive the robot using PID control on the drive base for a given
-  // distance. Distance is supplied in inches, and speed should be < 100 to allow
-  // for enough head space for the slave motor to catchup.
-
-  int masterPower = speed;                      // Set the master motor to the incoming speed
-                                                // we are doign a sanity check a bit further down
+  // drive the robot using the build in PID control on the drive base for a given
+  // distance. Distance is supplied in inches, and speed is givin in velocity
+  // meaning depending on your installed cartidege to be either +- 100 (RED), +-200 (GREEN)
+  // +-600 (BLUE) cartridge
+  //
+  // We are using motors in degree settings of the PID controller
 
   float wheelCircum = WHEEL_DIAMETER * 3.14;    // global WHEEL_DIAMETER is set in chassis.h
   float motorDegree = (distance / wheelCircum) * 360;  // cast into full degrees
 
+  // Calculate the lower and uppor bounds for the while loop ensuring robot drives
+  // desired distance
+  float motorUpper = motorDegree + 5;
+  float motorLower = motorDegree - 5;
+
   if(DEBUG_ON) {
-    printf("Dist: %1.2f \n", motorDegree);
-    wait(200);                        // Let terminal catch up
+    std::cout << "Dist: " << motorDegree ;
+    std::cout << " Upper: " << motorUpper << " Lower: " << motorLower << "\n";
   }
 
-  if(masterPower == 0 ) {
-     masterPower = 30;
-  } else if(masterPower > 110) {
-    masterPower = 100;              // make sure we have head room for slave
-                                    // motor to increass
-  }
+  // We first need to reset all the encoders
+  left_wheel_1.tare_position();
+  left_wheel_2.tare_position();
+  right_wheel_1.tare_position();
+  right_wheel_2.tare_position();
 
-  int totalTicks = 0;               // track total trveled
-  int slavePower = speed - 5;
-  int error = 0;
-  int kp = 5;                       // can be tuned to help zig-zag and accuracy, be careful!
+  left_wheel_1.move_relative(motorDegree, speed);    // Moves motorDegree units forward
+  left_wheel_2.move_relative(motorDegree, speed);    // Moves motorDegree units forward
+  right_wheel_1.move_relative(motorDegree, speed);   // Moves motorDegree units forward
+  right_wheel_2.move_relative(motorDegree, speed);   // Moves motorDegree units forward
 
-  encoderReset(encoderLM);
-  encoderReset(encoderRM);
-
-  while(abs(totalTicks) < motorDegree)
-  {
-    //Set the motor powers to their respective variables.
-    motorSet(LEFT_M_FRONT, masterPower);
-    motorSet(RIGHT_M_FRONT, -slavePower);
-
-    delay(300);                     // control loop needs enough time to gather
-                                    // data to base corrections on, to fast no effect,
-                                    // to slow the robot will zig zag
-                                    // Note: PWM can not run faster then 60Hz
-
-    error = encoderGet(encoderLM) - encoderGet(encoderRM);
-    slavePower = slavePower + (error / kp);
-
-    if(DEBUG_ON){
-      // We are going to write soem stuff to the terminal for debugging
-      printf("MasterPower: %d ", masterPower);
-      printf("SlavePower: %d ", slavePower);
-      printf("Left Enc: %d ", encoderGet(encoderLM));
-      printf("Right Enc: %d ", encoderGet(encoderRM));
-      printf("Error: %d ", error);
-      printf("Kp: %d ", kp);
-      printf("\n ");
-    }
-
-    //Add this iteration's encoder values to totalTicks.
-    totalTicks+= encoderGet(encoderLM);
-    if(DEBUG_ON) {
-      printf("error: %d", error);
-      printf(" slavePower: %d", slavePower);
-      printf(" totalTicks: %d \n", totalTicks);
-    }
-    // reset the encoders for the next loop around
-    encoderReset(encoderLM);
-    encoderReset(encoderRM);
+  while (!((left_wheel_1.get_position() < motorUpper) && (left_wheel_1.get_position() > motorLower))) {
+    // Continue running this loop as long as the motor is not within +-5 units of its goal
+    pros::delay(2);
   }
   // we have reached our desired distance, so stop the motors.
-  motorSet(LEFT_M_FRONT, 0);
-  motorSet(RIGHT_M_FRONT, 0);
 
+  left_wheel_1.move(0);
+  left_wheel_2.move(0);
+  right_wheel_1.move(0);
+  right_wheel_2.move(0);
+
+  if(DEBUG_ON){
+    std::cout << "Encoder Left: " << left_wheel_1.get_position();
+    std::cout << " Encoder Right: " << right_wheel_1.get_position() << "\n";
+  }
 }
 
+/*
 void pivotTurn(int direction, int speed, float angle) {
   // direction -- 1 = left turn, 0 = right pivotTurn
   // speed -- -100 -- 100

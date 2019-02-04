@@ -2,6 +2,10 @@
 #include "portdef.h"
 #include "lift.h"
 #include "chassis.h"
+#include "shooter.h"
+#include "intake.h"
+#include "claw.h"
+
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -23,6 +27,28 @@ void opcontrol() {
 	int right = 0;				// right motor speed control
 
 	double scaling = 1.0;
+
+  extern int selection;
+
+	bool autoRun = true;
+
+  int clawState = 0;		// track if we are flipped or need to reflip.
+
+	while(VEXNET_MANUAL && autoRun) {
+		 std::cout << "VEXnet Manual section \n";
+		 // CODE To test Autonomous without VEXnet switch
+		 // This should never be part of production code
+		 if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
+			 	 std::cout << "Calling autonomous function \n";
+				 selection = 1;								// need to transmit LCD selection as we do not
+				 															// get to LCD selection screen in bootup sequence
+				 autonomous();
+		 } else if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+				 autoRun = false;
+         std::cout << "Dropping out of autonomous \n";
+		 }
+		 pros::delay(40);				// Slow the thread down
+	}
 
 	while (true) {
     // get speed control -- using button X to rotate through .75, .5 and .25 speed scaling
@@ -75,6 +101,46 @@ void opcontrol() {
 	  	 chassisSetOpcontrol(left, right);
     }
 
+    // Ball Shooter Control
+		if(master.get_digital_new_press(DIGITAL_LEFT)){
+			shootBall(100);
+		}
+
+		// Run the intake
+		if(master.get_digital(DIGITAL_L1)) {
+			intakeForward(100);
+		} else if(master.get_digital(DIGITAL_L2)) {
+			intakeBackward(-100);
+		} else {
+			intakeStop(0);
+		}
+
+		//flip claw
+		if(master.get_digital_new_press(DIGITAL_RIGHT)){
+			if(clawState == 0){
+				flipClaw(100);										// Flip the claw 180 degrees at speed in RPM
+				clawState = 1;
+			}
+			else{
+				flipClawBack(100);								// Flip the claw -180 degrees at speed in RPM
+																					// back to opposite position
+				clawState = 0;
+			}
+		}
+
+    // RESET CLAW PID to 0 Position
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
+			 setClawPosition();
+		}
+
+		// Control lift movement
+		if(master.get_digital(DIGITAL_R1)) {
+			liftRaise(100, 1);					// raise to middle pole
+		} else if(master.get_digital(DIGITAL_R2)) {
+			liftRaise(100, 2);					// raise to high pole
+		} else {
+			// stay put lock it
+		}
 		pros::delay(20);
 	}
 }

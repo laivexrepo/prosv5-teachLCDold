@@ -1,6 +1,7 @@
 #include "main.h"
 #include "portdef.h"
 #include "auto.h"
+#include "chassis.h"
 
 /**
  * This is where all the various autonomous routines are located
@@ -50,6 +51,7 @@ void skillRun() {
 
 void autoRedLeft() {
   pros::lcd::print(2, "Auto:  autoRedLeft");
+  driveForDistancePID(48, 25);                    // 24 inches at 50RPM - we are on GREEN
 	//shooterControllerAuto.setTarget(1200);
   //shooterControllerAuto.waitUntilSettled();    // Have the shooter finsish shooting before the next action
 	//shooterControllerAuto.tarePosition();				 // what ever the current posiiton is is the new '0'
