@@ -35,16 +35,17 @@ void opcontrol() {
   int clawState = 0;		// track if we are flipped or need to reflip.
 
 	while(VEXNET_MANUAL && autoRun) {
-		 std::cout << "VEXnet Manual section \n";
 		 // CODE To test Autonomous without VEXnet switch
 		 // This should never be part of production code
 		 if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
+			   std::cout << "VEXnet Manual section \n";
 			 	 std::cout << "Calling autonomous function \n";
 				 selection = 1;								// need to transmit LCD selection as we do not
 				 															// get to LCD selection screen in bootup sequence
 				 autonomous();
 		 } else if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
 				 autoRun = false;
+				 std::cout << "VEXnet Manual section \n";
          std::cout << "Dropping out of autonomous \n";
 		 }
 		 pros::delay(40);				// Slow the thread down

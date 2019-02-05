@@ -45,6 +45,6 @@ void driveForDistancePID(int distance, int speed);
 
 // make a pivot turn to the right or left for a given angle - angle
 //should be greater the 10 and less equal to 360
-void pivotTurn(int direction, int speed, float angle);
+void pivotTurn(int speed, long angle);
 
 #endif // _CHASSIS_H_

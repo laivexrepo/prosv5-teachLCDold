@@ -51,7 +51,10 @@ void skillRun() {
 
 void autoRedLeft() {
   pros::lcd::print(2, "Auto:  autoRedLeft");
-  driveForDistancePID(48, 25);                    // 24 inches at 50RPM - we are on GREEN
+  driveForDistancePID(24, 50);                    // 24 inches at 50RPM - we are on GREEN
+  pivotTurn(60, -90);
+  driveForDistancePID(24, 50);                    // 24 inches at 50RPM - we are on GREEN
+  pivotTurn(60, 90);
 	//shooterControllerAuto.setTarget(1200);
   //shooterControllerAuto.waitUntilSettled();    // Have the shooter finsish shooting before the next action
 	//shooterControllerAuto.tarePosition();				 // what ever the current posiiton is is the new '0'

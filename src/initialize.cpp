@@ -69,14 +69,17 @@ void on_right_button() {
 
 void initialize() {
 	// We need to setup all the motors
+	// GEARSET_36 -- GREEN
+	// GEARSET_18 -- RED (defualt shipped)
+	// GEARSET_6  -- BLUE
 	pros::Motor liftMotor1(LIFT_RIGHT_MOTOR_PORT, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
 	pros::Motor liftMotor2(LIFT_RIGHT_MOTOR_PORT_TWO, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
 	pros::Motor liftMotor3(LIFT_LEFT_MOTOR_PORT, pros::E_MOTOR_GEARSET_18, true, pros::E_MOTOR_ENCODER_DEGREES);
 
-	pros::Motor left_wheel_1 (DRIVE_LEFT_MOTOR_PORT, MOTOR_GEARSET_36, pros::E_MOTOR_ENCODER_DEGREES);
-	pros::Motor left_wheel_2 (DRIVE_LEFT_MOTOR_PORT2, MOTOR_GEARSET_36, pros::E_MOTOR_ENCODER_DEGREES);
-	pros::Motor right_wheel_1 (DRIVE_RIGHT_MOTOR_PORT, MOTOR_GEARSET_36, true, pros::E_MOTOR_ENCODER_DEGREES);
-	pros::Motor right_wheel_2 (DRIVE_RIGHT_MOTOR_PORT2, MOTOR_GEARSET_36, true, pros::E_MOTOR_ENCODER_DEGREES);
+	pros::Motor left_wheel_1 (DRIVE_LEFT_MOTOR_PORT, MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
+	pros::Motor left_wheel_2 (DRIVE_LEFT_MOTOR_PORT2, MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
+	pros::Motor right_wheel_1 (DRIVE_RIGHT_MOTOR_PORT, MOTOR_GEARSET_18, true, pros::E_MOTOR_ENCODER_DEGREES);
+	pros::Motor right_wheel_2 (DRIVE_RIGHT_MOTOR_PORT2, MOTOR_GEARSET_18, true, pros::E_MOTOR_ENCODER_DEGREES);
 
 	pros::Motor clawMotor(CLAW_MOTOR_PORT, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
 
