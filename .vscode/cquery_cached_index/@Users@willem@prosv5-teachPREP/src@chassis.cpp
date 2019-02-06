@@ -3,7 +3,7 @@
 #include "portdef.h" // All port defintions on the cortex need to be included
 
 // Setup the motor definitions for the motors on the chassis, including GEARSET,
-// which in this case is RED cartridge - 200 RPM gear set.
+// which in this case is GRREN cartridge - 200 RPM gear set.
 pros::Motor left_wheel_1 (DRIVE_LEFT_MOTOR_PORT);
 pros::Motor left_wheel_2 (DRIVE_LEFT_MOTOR_PORT2);
 pros::Motor right_wheel_1 (DRIVE_RIGHT_MOTOR_PORT);
@@ -64,7 +64,7 @@ void turnRight(int speed) {
 void driveForDistancePID(int distance, int speed) {
   // drive the robot using the build in PID control on the drive base for a given
   // distance. Distance is supplied in inches, and speed is givin in velocity
-  // meaning depending on your installed cartidege to be either +- 100 (GREEN), +-200 (RED)
+  // meaning depending on your installed cartidege to be either +- 100 (RED), +-200 (GREEN)
   // +-600 (BLUE) cartridge
   //
   // We are using motors in degree settings of the PID controller

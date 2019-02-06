@@ -69,8 +69,8 @@ void on_right_button() {
 
 void initialize() {
 	// We need to setup all the motors
-	// GEARSET_36 -- GREEN
-	// GEARSET_18 -- RED (defualt shipped)
+	// GEARSET_36 -- RED
+	// GEARSET_18 -- GREEN (defualt shipped)
 	// GEARSET_6  -- BLUE
 	pros::Motor liftMotor1(LIFT_RIGHT_MOTOR_PORT, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
 	pros::Motor liftMotor2(LIFT_RIGHT_MOTOR_PORT_TWO, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);

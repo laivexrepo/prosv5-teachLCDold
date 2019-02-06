@@ -10,4 +10,4 @@ For testing purposes the opcontrol() function contains a way to force autonomous
 
 The code in chassis.c (combined with chassis.h) is critical for movements.  It relies on accurate meausrement of the wheel diameter, as well as the chassis width as measured between left front wheel and right back wheeel - representing the the turn circle when the robot pivot turns.
 
-Further the function used for forward movement assumes the distance to be input in inches.  All speeds are in RPM in relationship to the motor cartridges.  green - +-100RPM, red - +-200RPM, blue - +- 600RPM.
+Further the function used for forward movement assumes the distance to be input in inches.  All speeds are in RPM in relationship to the motor cartridges.  red - +-100RPM, green - +-200RPM, blue - +- 600RPM.
