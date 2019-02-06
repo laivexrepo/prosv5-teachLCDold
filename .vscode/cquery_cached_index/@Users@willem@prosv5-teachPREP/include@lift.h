@@ -16,4 +16,8 @@ void liftRaise(int speed, int level);   // move to one of three positions at spe
 void liftRaiseSteps(int speed, int increment); // move lift up or down in
                                                // given increment at speed in RPM
 
+void liftEncoderValue();                // print the current encoder settings to the debug console
+
+void liftRaiseManual(int speed);        // manual raise the lift up and down
+
 #endif

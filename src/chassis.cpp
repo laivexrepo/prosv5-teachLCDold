@@ -28,10 +28,12 @@ void chassisSetOpcontrol(int left, int right) {
   left_wheel_2.move(left);
   right_wheel_1.move(right);
   right_wheel_2.move(right);
+  /*
   if(DEBUG_ON){
     std::cout << "Left RPM: " << left_wheel_1.get_actual_velocity();
-    std::cout << "Right RPM: " << right_wheel_1.get_actual_velocity();
+    std::cout << "Right RPM: " << right_wheel_1.get_actual_velocity() << "\n";
   }
+  */
 }
 
 void chassisStopDrive(){

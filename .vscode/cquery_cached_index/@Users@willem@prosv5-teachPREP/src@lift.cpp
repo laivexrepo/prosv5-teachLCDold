@@ -11,6 +11,24 @@ void liftSetZero(int speed) {
   liftMotor1.tare_position();
   liftMotor2.tare_position();
   liftMotor3.tare_position();
+  if(DEBUG_ON){
+    std::cout << "Lift ZERO point reset \n";
+  }
+}
+
+void liftRaiseManual(int speed) {
+  // Raises lift manual based using speed provided
+  liftMotor1.move_velocity(speed);
+  liftMotor2.move_velocity(speed);
+  liftMotor3.move_velocity(speed);
+}
+
+void liftEncoderValue() {
+  // gets the encoder value and prints it to the std::std::cout
+  std::cout << "Lift Encoder: -- M1: " << liftMotor1.get_position();
+  std::cout << " M2: " << liftMotor2.get_position();
+  std::cout << " M23 " << liftMotor3.get_position() << "\n";
+  pros::delay(2);
 }
 
 void liftRaise(int speed, int level) {
@@ -25,12 +43,19 @@ void liftRaise(int speed, int level) {
   int highPoleUpper = LIFT_HIGH_POLE + 5;
   int highPoleLower = LIFT_HIGH_POLE - 5;
 
+  int zeroPointUpper = LIFT_FULL_RETRACT + 5;
+  int zeroPointLower = LIFT_FULL_RETRACT;
+
   switch(level) {
     case 0:
       // move all the way back down
-      liftMotor1.move_absolute(0, -speed); // Moves LIFT_LOW_POLE units forward
-      liftMotor2.move_absolute(0, -speed); // Moves LIFT_LOW_POLE units forward
-      liftMotor3.move_absolute(0, -speed); // Moves LIFT_LOW_POLE units forward
+      liftMotor1.move_absolute(0, speed); // Moves LIFT_LOW_POLE units forward
+      liftMotor2.move_absolute(0, speed); // Moves LIFT_LOW_POLE units forward
+      liftMotor3.move_absolute(0, speed); // Moves LIFT_LOW_POLE units forward
+      while (!((liftMotor1.get_position() < zeroPointUpper) && (liftMotor1.get_position() > zeroPointLower))) {
+          // Continue running this loop as long as the motor is not within +-5 units of its goal
+          pros::delay(2);
+      }
 
       break;
 
@@ -55,5 +80,11 @@ void liftRaise(int speed, int level) {
           pros::delay(2);
       }
       break;
+  }
+  if(DEBUG_ON){
+    std::cout << "Lift Encoder: -- M1: " << liftMotor1.get_position();
+    std::cout << " M2: " << liftMotor2.get_position();
+    std::cout << " M23 " << liftMotor3.get_position() << "\n";
+    pros::delay(2);           // Give thread time to catch up.
   }
 }

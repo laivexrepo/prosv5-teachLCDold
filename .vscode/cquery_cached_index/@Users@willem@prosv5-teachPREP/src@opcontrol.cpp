@@ -89,16 +89,21 @@ void opcontrol() {
 			 if(abs(left) < DEAD_STICK) { left = 0; }
 			 if(abs(right) < DEAD_STICK) { right = 0; }
 
+      /*
        if(DEBUG_ON) {
 				 std::cout << "Scaling: " << scaling ;
 				 std::cout << " Left: " << left ;
 			 }
+			 */
+
        // lets do JOY stick scaling as well
 			 left = (left * scaling);
 			 right = (right * scaling);
+       /*
 			 if(DEBUG_ON) {
 				std::cout << " Left Scaled: " << left << "\n" ;
 			}
+			*/
 	  	 chassisSetOpcontrol(left, right);
     }
 
@@ -130,7 +135,7 @@ void opcontrol() {
 		}
 
     // RESET CLAW PID to 0 Position
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
 			 setClawPosition();
 		}
 
@@ -141,6 +146,11 @@ void opcontrol() {
 			liftRaise(100, 2);					// raise to high pole
 		} else {
 			// stay put lock it
+		}
+
+		// lift reteact to zero
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+			 liftRaise(100, 0);
 		}
 		pros::delay(20);
 	}
