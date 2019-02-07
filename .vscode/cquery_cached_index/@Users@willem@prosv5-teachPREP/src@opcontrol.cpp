@@ -22,6 +22,7 @@
  */
 void opcontrol() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);						// MASTER remote for driving
+	pros::Controller partner(pros::E_CONTROLLER_PARTNER);					// PARTNER remote for lift
 
   int left = 0;					// left motor speed control
 	int right = 0;				// right motor speed control
@@ -49,6 +50,13 @@ void opcontrol() {
          std::cout << "Dropping out of autonomous \n";
 		 }
 		 pros::delay(40);				// Slow the thread down
+	}
+
+  if (partner.is_connected()) {
+		if(DEBUG_ON) {
+			std::cout << "Partner Remote is connected \n";
+			liftLockMode();
+		}
 	}
 
 	while (true) {
@@ -153,5 +161,27 @@ void opcontrol() {
 			 liftRaise(100, 0);
 		}
 		pros::delay(20);
+
+		if (partner.is_connected()) {
+      // Use a two controller control scheme -- PARTNER is connected
+
+			// Control lift movement
+			if(partner.get_digital(DIGITAL_R1)) {
+				liftRaiseManual(100);						// raise
+			} else if(partner.get_digital(DIGITAL_R2)) {
+				liftRaiseManual(-100);					// lower
+			} else {
+				// stay put lock it
+				liftLock();
+			}
+
+			// Move lift in defined increments up/down
+			if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
+   			liftRaiseStep(50, 1);				// MOVE lift up at 50RPM
+			}
+			if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+				liftRaiseStep(50, 0);				// MOVE lift up at 50RPM
+			}
+    }
 	}
 }
