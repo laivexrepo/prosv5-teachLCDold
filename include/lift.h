@@ -3,9 +3,9 @@
 
 // ----------- SETTINGS FOR AUTO LIFT CONTROL -------
 #define LIFT_FULL_RETRACT 0       // fully down Position
-#define LIFT_LOW_POLE 1450        // encoder target ticks for low scoring pole
-#define LIFT_HIGH_POLE 2800       // encoder target ticks for high scoring pole
-#define LIFT_MAX_HIEGHT 2950      // Maximum height the lift mechanically can extend to
+#define LIFT_LOW_POLE 1550        // encoder target ticks for low scoring pole
+#define LIFT_HIGH_POLE 2150       // encoder target ticks for high scoring pole
+#define LIFT_MAX_HIEGHT 2200      // Maximum height the lift mechanically can extend to
 #define LIFT_STEP_SIZE 30         // Step move increment for liftRaiseStep function
 
 void liftSetZero(int speed);      // reset encoders Zero position

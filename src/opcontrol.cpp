@@ -149,16 +149,16 @@ void opcontrol() {
 
 		// Control lift movement
 		if(master.get_digital(DIGITAL_R1)) {
-			liftRaise(100, 1);					// raise to middle pole
+			liftRaise(150, 1);					// raise to middle pole
 		} else if(master.get_digital(DIGITAL_R2)) {
-			liftRaise(100, 2);					// raise to high pole
+			liftRaise(150, 2);					// raise to high pole
 		} else {
 			// stay put lock it
 		}
 
 		// lift reteact to zero
 		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
-			 liftRaise(100, 0);
+			 liftRaise(150, 0);
 		}
 		pros::delay(20);
 
