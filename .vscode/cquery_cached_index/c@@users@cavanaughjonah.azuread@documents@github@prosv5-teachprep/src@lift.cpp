@@ -6,6 +6,13 @@ pros::Motor liftMotor1(LIFT_RIGHT_MOTOR_PORT);
 pros::Motor liftMotor2(LIFT_RIGHT_MOTOR_PORT_TWO);
 pros::Motor liftMotor3(LIFT_LEFT_MOTOR_PORT);
 
+void setLiftHeight(int height, int rpms) {
+  //set lift height at rpms
+  liftMotor1.move_absolute(height, rpms);
+  liftMotor2.move_absolute(height, rpms);
+  liftMotor3.move_absolute(height, rpms);
+}
+
 void liftSetZero(int speed) {
   // reset zero position of each encoded motor.
   liftMotor1.tare_position();
