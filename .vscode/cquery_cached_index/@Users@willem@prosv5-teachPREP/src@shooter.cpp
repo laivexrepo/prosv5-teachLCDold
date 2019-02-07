@@ -8,13 +8,17 @@ void shootBall(int speed) {
   if(DEBUG_ON){
     std::cout << "Shooter running \n" ;
   }
-  int shooterUpper = SHOOTER_TARGET + 10;
-  int shooterLower = SHOOTER_TARGET - 10;
+  int shooterUpper = SHOOTER_TARGET + 5;
+  int shooterLower = SHOOTER_TARGET - 5;
 
   shooterMotor.tare_position();
   shooterMotor.move_absolute(SHOOTER_TARGET, speed);          // Moves SHOOTER_TARGET units forward at
                                                               // speed == RPM
   while (!((shooterMotor.get_position() < shooterUpper) && (shooterMotor.get_position() > shooterLower))) {
      pros::delay(2);
+  }
+  if(DEBUG_ON){
+    std::cout << "Shooter Encoder: -- M1: " << shooterMotor.get_position();
+    pros::delay(2);
   }
 }

@@ -2,7 +2,7 @@
 #define _CLAW_H_
 
 // ----------- SETTINGS FOR AUTO CLAW CONTROL -------
-#define FLIP_TARGET 450           // How many tics to flip the claw 180degrees
+#define FLIP_TARGET 390           // How many tics to flip the claw 180degrees
 
 void flipClaw(int speed);         // flip the claw 180 degrees
 void flipClawBack(int speed);     // flips claw back to starting position  (-180)

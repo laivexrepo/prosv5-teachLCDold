@@ -3,8 +3,8 @@
 
 // ----------- SETTINGS FOR AUTO LIFT CONTROL -------
 #define LIFT_FULL_RETRACT 0       // fully down Position
-#define LIFT_LOW_POLE 2750        // encoder target ticks for low scoring pole
-#define LIFT_HIGH_POLE 4230       // encoder target ticks for high scoring pole
+#define LIFT_LOW_POLE 1450       // encoder target ticks for low scoring pole
+#define LIFT_HIGH_POLE 2800       // encoder target ticks for high scoring pole
 
 void liftSetZero(int speed);      // reset encoders Zero position
 

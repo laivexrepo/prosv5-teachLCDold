@@ -114,9 +114,9 @@ void opcontrol() {
 
 		// Run the intake
 		if(master.get_digital(DIGITAL_L1)) {
-			intakeForward(100);
+			intakeForward(200);
 		} else if(master.get_digital(DIGITAL_L2)) {
-			intakeBackward(-100);
+			intakeBackward(200);
 		} else {
 			intakeStop(0);
 		}
