@@ -15,3 +15,6 @@ shooter.h       Verify if the SHOOTER_TARGET is set correct for two full rotatio
 autonomous.cpp  Need skill and and competition code to use new chassis.cpp functions
 
 Need to re-assign the various remote buttons to be more functional for the drivers
+
+Change / update some of the comments to make it clearer for the students to understand
+the various functions
