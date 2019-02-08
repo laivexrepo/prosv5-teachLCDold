@@ -44,23 +44,6 @@ void chassisStopDrive(){
   right_wheel_2.move(0);
 }
 
-/*
-void turnLeft(int speed) {
-  // pivot turn the robot 'left' - use delay after the call to
-  // turn for a given time = angle
-  motorSet(LEFT_M_FRONT, speed);
-  motorSet(RIGHT_M_FRONT, speed);
-}
-
-void turnRight(int speed) {
-  // pivot turn the robot 'right' - use delay after the call to
-  // turn for a given time = angle
-  motorSet(LEFT_M_FRONT, -speed);
-  motorSet(RIGHT_M_FRONT, -speed);
-}
-
-*/
-
 void driveForDistancePID(int distance, int speed) {
   // drive the robot using the build in PID control on the drive base for a given
   // distance. Distance is supplied in inches, and speed is givin in velocity
@@ -68,6 +51,9 @@ void driveForDistancePID(int distance, int speed) {
   // +-600 (BLUE) cartridge
   //
   // We are using motors in degree settings of the PID controller
+  //
+  // TODO/CHECK -- if we give negative distance wil lwe drive backwards?
+
 
   float wheelCircum = WHEEL_DIAMETER * 3.14;    // global WHEEL_DIAMETER is set in chassis.h
   float motorDegree = (distance / wheelCircum) * 360;  // cast into full degrees

@@ -91,8 +91,10 @@ void liftRaiseStep(int speed, int direction){
     upperBound = moveDegrees + 5;
     lowerBound = moveDegrees - 5;
     if(upperBound > LIFT_MAX_HIEGHT ) {
-      upperBound = LIFT_MAX_HIEGHT;
-      moveDegrees = LIFT_MAX_HIEGHT;  // Can't move past maximum mechanical height
+      upperBound = LIFT_MAX_HIEGHT - 5;     // we need to give a bit of room to settle
+                                            // id we don't motor may stall in "locked" mode not able to
+                                            // to reach encoder setings
+      moveDegrees = LIFT_MAX_HIEGHT - 5;    // Can't move past maximum mechanical height
     }
   }
 
@@ -118,6 +120,26 @@ void liftLockMode() {
   // get the current lift lock mode of the break
   std::cout << "Brake Mode: " << liftMotor1.get_brake_mode() << "\n";
   pros::delay(10);
+}
+
+void liftDropCap(int speed){
+  // We will move down set vlaue LIFT_DROP_DELTA to help auto drop the cap.
+
+  int movePosition = liftMotor1.get_position() - LIFT_DROP_DELTA;
+  int lowerBound = movePosition - 5;
+  int upperBound = movePosition + 5;
+
+  liftMotor1.move_absolute(movePosition, speed); // Moves LIFT_LOW_POLE units forward
+  liftMotor2.move_absolute(movePosition, speed); // Moves LIFT_LOW_POLE units forward
+  liftMotor3.move_absolute(movePosition, speed); // Moves LIFT_LOW_POLE units forward
+  while (!((liftMotor1.get_position() < upperBound) && (liftMotor1.get_position() > lowerBound))) {
+      // Continue running this loop as long as the motor is not within +-5 units of its goal
+      pros::delay(2);
+  }
+  if(DEBUG_ON){
+    std::cout << "Drop Cap Auto Fucntion -- speed: " << speed << " New Encoder Target: ";
+    std::cout << liftMotor1.get_position() << " Moved: " << LIFT_DROP_DELTA << "\n";
+   }
 }
 
 void liftLock() {

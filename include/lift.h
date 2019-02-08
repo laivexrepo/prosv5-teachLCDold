@@ -7,6 +7,7 @@
 #define LIFT_HIGH_POLE 2150       // encoder target ticks for high scoring pole
 #define LIFT_MAX_HIEGHT 2200      // Maximum height the lift mechanically can extend to
 #define LIFT_STEP_SIZE 30         // Step move increment for liftRaiseStep function
+#define LIFT_DROP_DELTA 40        // Drop down automatically set value to drop cap on pipe
 
 void liftSetZero(int speed);      // reset encoders Zero position
 
@@ -28,5 +29,7 @@ void liftRaiseManual(int speed);        // manual raise the lift up and down
 void liftLock();                        // locks lift in current position forcing PID hold
 
 void liftLockMode();                    // Get current lift motor break (lock) mode
+
+void liftDropCap(int speed);                     // lower automatic on pipe - we will drop a set amount
 
 #endif

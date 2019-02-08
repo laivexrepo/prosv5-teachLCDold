@@ -182,6 +182,11 @@ void opcontrol() {
 			if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
 				liftRaiseStep(50, 0);				// MOVE lift up at 50RPM
 			}
+
+			// Drop Cap auto function
+			if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+				liftDropCap(75);				// MOVE lift up at 50RPM
+			}
     }
 	}
 }
