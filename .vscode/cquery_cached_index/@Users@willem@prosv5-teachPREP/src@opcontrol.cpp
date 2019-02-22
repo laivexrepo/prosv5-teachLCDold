@@ -156,9 +156,9 @@ void opcontrol() {
 
 		// Control lift movement
 		if(master.get_digital(DIGITAL_R1)) {
-			liftRaise(150, 1);					// raise to middle pole
+			liftRaise(100, 1);					// raise to middle pole
 		} else if(master.get_digital(DIGITAL_R2)) {
-			liftRaise(150, 2);					// raise to high pole
+			liftRaise(100, 2);					// raise to high pole
 		} else {
 			// stay put lock it
 		}
