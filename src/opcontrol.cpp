@@ -35,6 +35,8 @@ void opcontrol() {
 
   int clawState = 0;		// track if we are flipped or need to reflip.
 
+	/*
+  // Manual VEXNET code removed for competition
 	while(VEXNET_MANUAL && autoRun) {
 		 // CODE To test Autonomous without VEXnet switch
 		 // This should never be part of production code
@@ -51,6 +53,7 @@ void opcontrol() {
 		 }
 		 pros::delay(40);				// Slow the thread down
 	}
+  */
 
   if (partner.is_connected()) {
 		if(DEBUG_ON) {
@@ -62,18 +65,18 @@ void opcontrol() {
 	while (true) {
     // get speed control -- using button X to rotate through .75, .5 and .25 speed scaling
 		// When button B is presses it reset to 1:1 scaling
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
+		//if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
 			// reduce scaling .25, however if scaling is alread .25 then we reset to 1:1
-			if(scaling != .25) {
-				scaling = scaling - 0.25;				// scale down .25
-			} else {
-				scaling = 1;										// scaling was at lowest so reset to 1:1
-			}
-    }
+		//	if(scaling != .25) {
+		//		scaling = scaling - 0.25;				// scale down .25
+		//	} else {
+		//		scaling = 1;										// scaling was at lowest so reset to 1:1
+		//	}
+    //}
 		// RESET scaling button
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
-    	 scaling = 1;					// reset the scaling to 1:1
-		}
+		//if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+    //	 scaling = 1;					// reset the scaling to 1:1
+		//}
 
     // check if we are wanting to drive in ARCADE or TANK drive mode.  If the
 		// global ARCADE_DRIVE == true we will execute aracade drive otherwise we will
@@ -116,7 +119,8 @@ void opcontrol() {
     }
 
     // Ball Shooter Control
-		if(master.get_digital_new_press(DIGITAL_LEFT)){
+		//if(master.get_digital_new_press(DIGITAL_LEFT)){
+		if(master.get_digital_new_press(DIGITAL_B)){
 			shootBall(100);
 		}
 
@@ -130,7 +134,9 @@ void opcontrol() {
 		}
 
 		//flip claw
-		if(master.get_digital_new_press(DIGITAL_RIGHT)){
+		//if(master.get_digital_new_press(DIGITAL_RIGHT)){
+		if(master.get_digital_new_press(DIGITAL_A)){
+
 			if(clawState == 0){
 				flipClaw(100);										// Flip the claw 180 degrees at speed in RPM
 				clawState = 1;
@@ -143,9 +149,10 @@ void opcontrol() {
 		}
 
     // RESET CLAW PID to 0 Position
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
-			 setClawPosition();
-		}
+		// Moved to partner remote
+		//if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
+		//	 setClawPosition();
+		//}
 
 		// Control lift movement
 		if(master.get_digital(DIGITAL_R1)) {
@@ -165,10 +172,25 @@ void opcontrol() {
 		if (partner.is_connected()) {
       // Use a two controller control scheme -- PARTNER is connected
 
+			// get speed control -- using button X to rotate through .75, .5 and .25 speed scaling
+			// When button B is presses it reset to 1:1 scaling
+			if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
+				// reduce scaling .25, however if scaling is alread .25 then we reset to 1:1
+				if(scaling != .25) {
+					scaling = scaling - 0.25;				// scale down .25
+				} else {
+					scaling = 1;										// scaling was at lowest so reset to 1:1
+				}
+	    }
+			// RESET scaling button
+			if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+	    	 scaling = 1;					// reset the scaling to 1:1
+			}
+
 			// Control lift movement
-			if(partner.get_digital(DIGITAL_R1)) {
+			if(partner.get_digital(DIGITAL_L1)) {
 				liftRaiseManual(100);						// raise
-			} else if(partner.get_digital(DIGITAL_R2)) {
+			} else if(partner.get_digital(DIGITAL_L2)) {
 				liftRaiseManual(-100);					// lower
 			} else {
 				// stay put lock it
@@ -176,16 +198,22 @@ void opcontrol() {
 			}
 
 			// Move lift in defined increments up/down
-			if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
+			if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
    			liftRaiseStep(50, 1);				// MOVE lift up at 50RPM
 			}
-			if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+			if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
 				liftRaiseStep(50, 0);				// MOVE lift up at 50RPM
 			}
 
 			// Drop Cap auto function
-			if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+			if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
 				liftDropCap(75);				// MOVE lift up at 50RPM
+			}
+
+			// RESET CLAW PID to 0 Position
+			//if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
+			if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
+				 setClawPosition();
 			}
     }
 	}
