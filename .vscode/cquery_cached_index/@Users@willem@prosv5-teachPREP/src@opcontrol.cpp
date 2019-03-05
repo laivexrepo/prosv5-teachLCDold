@@ -120,7 +120,8 @@ void opcontrol() {
 
     // Ball Shooter Control
 		//if(master.get_digital_new_press(DIGITAL_LEFT)){
-		if(master.get_digital_new_press(DIGITAL_B)){
+		// Moved to button B - 3/5/2019
+		if(master.get_digital_new_press(DIGITAL_Y)){
 			shootBall(100);
 		}
 
@@ -164,17 +165,17 @@ void opcontrol() {
 		}
 
 		// lift reteact to zero
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
 			 liftRaise(150, 0);
 		}
 		pros::delay(20);
 
-		if (partner.is_connected()) {
+		//if (partner.is_connected()) {
       // Use a two controller control scheme -- PARTNER is connected
 
 			// get speed control -- using button X to rotate through .75, .5 and .25 speed scaling
 			// When button B is presses it reset to 1:1 scaling
-			if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
+			if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
 				// reduce scaling .25, however if scaling is alread .25 then we reset to 1:1
 				if(scaling != .25) {
 					scaling = scaling - 0.25;				// scale down .25
@@ -183,7 +184,7 @@ void opcontrol() {
 				}
 	    }
 			// RESET scaling button
-			if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+			if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
 	    	 scaling = 1;					// reset the scaling to 1:1
 			}
 
@@ -198,10 +199,10 @@ void opcontrol() {
 			}
 
 			// Move lift in defined increments up/down
-			if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
+			if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
    			liftRaiseStep(50, 1);				// MOVE lift up at 50RPM
 			}
-			if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+			if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
 				liftRaiseStep(50, 0);				// MOVE lift up at 50RPM
 			}
 
@@ -215,6 +216,6 @@ void opcontrol() {
 			if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
 				 setClawPosition();
 			}
-    }
+    //}
 	}
 }
