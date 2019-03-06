@@ -165,7 +165,7 @@ void opcontrol() {
 		}
 
 		// lift reteact to zero
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
 			 liftRaise(150, 0);
 		}
 		pros::delay(20);
@@ -175,7 +175,7 @@ void opcontrol() {
 
 			// get speed control -- using button X to rotate through .75, .5 and .25 speed scaling
 			// When button B is presses it reset to 1:1 scaling
-			if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
+			if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
 				// reduce scaling .25, however if scaling is alread .25 then we reset to 1:1
 				if(scaling != .25) {
 					scaling = scaling - 0.25;				// scale down .25
@@ -184,7 +184,7 @@ void opcontrol() {
 				}
 	    }
 			// RESET scaling button
-			if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+			if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
 	    	 scaling = 1;					// reset the scaling to 1:1
 			}
 
@@ -199,15 +199,15 @@ void opcontrol() {
 			}
 
 			// Move lift in defined increments up/down
-			if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
+			if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
    			liftRaiseStep(50, 1);				// MOVE lift up at 50RPM
 			}
-			if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+			if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
 				liftRaiseStep(50, 0);				// MOVE lift up at 50RPM
 			}
 
 			// Drop Cap auto function
-			if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+			if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
 				liftDropCap(75);				// MOVE lift up at 50RPM
 			}
 
