@@ -14,45 +14,103 @@
  **/
 
 
-// for the ball launcher
-//pros::Motor shooterMotorAuto(SHOOTER_MOTOR_PORT, pros::E_MOTOR_GEARSET_18, true);
+ void skillRun() {
+   pros::lcd::print(2, "Auto:  skillRun");
+   if(DEBUG_ON) {
+     std::cout << "Running Auto - SkillRun Code " << "\n";
+   }
+   //shoot target and flip flag
+   shootBall(300);
+   pivotTurn(20, -10);
+   driveForDistancePID(-45, 100);
+   driveForDistancePID(20, 100);
+   pivotTurn(30, 78);
+   driveForDistancePID(-2, 100);
+   pivotTurn(30, 158);
+   //flip cap over using claw and lift
+   setClawPosition();
+   flipClaw(200);
+   setClawPosition();
+   flipClaw(200);
+   driveForDistancePID(-5, 100);
+   driveForDistancePID(15, 100);
+   liftRaise(100, 1);
+   liftLock();
+   setClawPosition();
+   flipClaw(200);
+   liftRaise(100,0);
+   driveForDistancePID(-10, 50);
+   // climb back on platform
+   pivotTurn(30, -79);
+   driveForDistancePID(-50, 100);
+   pivotTurn(30, -81);
+   driveForDistancePID(-70, 150);
 
-void skillRun() {
-  pros::lcd::print(2, "Auto:  skillRun");
-  if(DEBUG_ON) {
-    std::cout << "Running Auto - SkillRun Code " << "\n";
-  }
-	// skills run //
-  shootBall(200);               // Shoot the ball at target from starting square
 
 
-	//driveAuto.turnAngle(-1*8_deg);
-	//driveAuto.moveDistance(-1*0.9_m);
-	//driveAuto.moveDistance(1.4_m);
-	//driveAuto.turnAngle(90_deg);
-	//driveAuto.moveDistance(1.8_m);
-};
 
-void autoRedLeft() {
-  pros::lcd::print(2, "Auto:  autoRedLeft");
-  driveForDistancePID(24, 50);                    // 24 inches at 50RPM - we are on GREEN
-  pivotTurn(60, -90);
-  driveForDistancePID(24, 50);                    // 24 inches at 50RPM - we are on GREEN
-  pivotTurn(60, 90);
+ };
 
-};
 
-void autoBlueLeft() {
-  pros::lcd::print(2, "Auto:  autoBlueLeft");
 
-};
 
-void autoRedRight() {
-  pros::lcd::print(2, "Auto:  autoRedRight");
+ void autoRedLeft() {
+   pros::lcd::print(2, "Auto:  autoRedLeft");
+   // shoots ball, runs over bottom flag with intake, knocks cap, climbs on platform
+   shootBall(300);
+   pivotTurn(20, -10);
+   intakeForward(100);
+   driveForDistancePID(-45, 100);
+   intakeStop(0);
+   driveForDistancePID(45, 100);
+   pivotTurn(30, 78);
+   driveForDistancePID(-35, 100);
+   driveForDistancePID(37, 100);
+   pivotTurn(30, -81);
+   driveForDistancePID(22, 100);
+   pivotTurn(30, 82);
+   //driveForDistancePID(10, 50);
+   driveForDistancePID(-70, 150);
 
-};
+ };
 
-void autoBlueRight() {
-  pros::lcd::print(2, "Auto:  autoBlueRight");
+ void autoBlueLeft() {
+   pros::lcd::print(2, "Auto:  autoBlueLeft");
 
-};
+   //how to use claw + lift autonomously
+   driveForDistancePID(10, 100);
+   liftRaise(100, 1);
+   liftLock();
+   setClawPosition();
+   flipClaw(200);
+   liftRaise(100,0);
+   driveForDistancePID(-10, 50);
+
+
+
+ };
+
+ void autoRedRight() {
+   pros::lcd::print(2, "Auto:  autoRedRight");
+
+ };
+
+ void autoBlueRight() {
+   pros::lcd::print(2, "Auto:  autoBlueRight");
+   //does same as autoRedLeft
+   shootBall(300);
+   intakeForward(100);
+   driveForDistancePID(-45, 100);
+   intakeStop(0);
+   driveForDistancePID(45, 100);
+   pivotTurn(30, -75);
+   driveForDistancePID(-35, 100);
+   driveForDistancePID(37, 100);
+   pivotTurn(30, 81);
+   driveForDistancePID(20, 100);
+   pivotTurn(30, -81);
+   //driveForDistancePID(10, 50);
+   driveForDistancePID(-70, 150);
+
+
+ };
