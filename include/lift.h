@@ -7,7 +7,10 @@
 #define LIFT_HIGH_POLE 2150       // encoder target ticks for high scoring pole
 #define LIFT_MAX_HIEGHT 2200      // Maximum height the lift mechanically can extend to
 #define LIFT_STEP_SIZE 30         // Step move increment for liftRaiseStep function
-#define LIFT_DROP_DELTA 320        // Drop down automatically set value to drop cap on pipe
+#define LIFT_DROP_DELTA 320       // Drop down automatically set value to drop cap on pipe
+#define LIFT_FLIP_RAISE 100       // Move to encoder position of 100encDegrees
+                                  // to facilitate flip on ground without breaking 18" rule
+
 
 void liftSetZero(int speed);      // reset encoders Zero position
 

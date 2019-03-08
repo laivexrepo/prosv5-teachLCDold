@@ -211,6 +211,12 @@ void opcontrol() {
 				liftDropCap(75);				// MOVE lift up at 50RPM
 			}
 
+			// Lift slightly in preparatio nfor cap flip
+			if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
+				 liftRaiseForEncoder(100, LIFT_FLIP_RAISE);				// MOVE lift up to be ready
+				 																									// to flip cap
+			}
+
 			// RESET CLAW PID to 0 Position
 			//if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
 			if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
