@@ -175,7 +175,7 @@ void opcontrol() {
 
 			// get speed control -- using button X to rotate through .75, .5 and .25 speed scaling
 			// When button B is presses it reset to 1:1 scaling
-			if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
+			if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
 				// reduce scaling .25, however if scaling is alread .25 then we reset to 1:1
 				if(scaling != .25) {
 					scaling = scaling - 0.25;				// scale down .25
@@ -184,7 +184,7 @@ void opcontrol() {
 				}
 	    }
 			// RESET scaling button
-			if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+			if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
 	    	 scaling = 1;					// reset the scaling to 1:1
 			}
 
@@ -199,10 +199,10 @@ void opcontrol() {
 			}
 
 			// Move lift in defined increments up/down
-			if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
+			if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
    			liftRaiseStep(50, 1);				// MOVE lift up at 50RPM
 			}
-			if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+			if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
 				liftRaiseStep(50, 0);				// MOVE lift up at 50RPM
 			}
 
